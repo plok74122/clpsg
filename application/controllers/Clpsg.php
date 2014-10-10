@@ -5,17 +5,39 @@ class Clpsg extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('clpsg_model');
 		$this->load->helper(array('html','url'));
+		$this->load->library(array('parser','session'));
 	}
 	public function index()
 	{
-		$this->load->library('parser');
-		Html_Header();	
+		Html_Header();
 		//本文內容
 		$this->load->view("clpsg/templates/header");
 		$this->load->view('clpsg/templates/main_navigation');
 		$this->load->view('clpsg/templates/main_content');
 		$this->load->view("clpsg/templates/footer");
+	}
+	public function login_check()
+	{
+		Html_Header();
+		$input_array = $this->input->post();
+		$return = $this->clpsg_model->login_check($input_array);
+		if($return['no']!="")
+		{
+			$this->session->set_userdata($return);
+			redirect(base_url());	
+		}
+		else
+		{
+			$this->session->sess_destroy();
+			redirect(base_url());	
+		}
+	}
+	public function logut()
+	{	
+		$this->session->sess_destroy();
+		redirect(base_url());
 	}
 }
 
