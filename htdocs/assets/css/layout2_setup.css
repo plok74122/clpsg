@@ -16,7 +16,7 @@
 /************/
 
 /* NON-HEADER */
-*{padding:0; margin:0;}
+*{padding:0; margin: 0 auto;}
  body {font-size:62.5%; background-color:rgb(255,255,255); font-family:verdana,arial,sans-serif;} /*Font-size: 1.0em = 10px when browser default size is 16px*/
 .page-container {width:970px; margin:0px auto; margin-top:10px; margin-bottom:10px; border:solid 1px rgb(150,150,150); font-size:1.0em;}
 .main {clear:both; width:970px; padding-bottom:30px; background:transparent url(../img/bg_main_withnav.jpg) top left repeat-y;}
@@ -107,7 +107,7 @@
 .main-navigation .round-border-topright {width:10px; height:10px; position:absolute; z-index:100; margin:0 0 0 190px; background:url(../img/bg_corner_topright.gif) no-repeat;}
 
 /* MAIN CONTENT */
-.column1-unit {width:640px; margin-bottom:10px !important /*Non-IE6*/; margin-bottom:5px /*IE6*/;}
+.column1-unit {width:640px; padding-left: 40px;margin-bottom:10px !important /*Non-IE6*/; margin-bottom:5px /*IE6*/;}
 .column2-unit-left {float:left; width:300px; margin-bottom:10px !important /*Non-IE6*/; margin-bottom:5px /*IE6*/;}
 .column2-unit-right {float:right; width:300px; margin-bottom:10px !important /*Non-IE6*/; margin-bottom:5px /*IE6*/;}
 .column3-unit-left {float:left; width:186px; margin-bottom:10px !important /*Non-IE6*/; margin-bottom:5px /*IE6*/}
