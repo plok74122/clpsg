@@ -31,7 +31,7 @@ class Headcount extends CI_Controller {
 		$return = $this->clpsg_model->insert_headcount($input_array);
 		if($return =="success")
 		{
-			echo "<script>alert('新增成功');history.go(-1);</script>";
+			echo "<script>alert('新增成功');window.location='".base_url('headcount/add_count')."';</script>";
 		}
 		else if($return =="dbrepeat")
 		{

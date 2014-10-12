@@ -22,7 +22,7 @@
                 <p><label for="departure_time" class="left">離開時間:</label>
                    <input type="text" name="departure_time" id="timepicker2" class="field" value="" tabindex="1" /></p>
                 <p><label for="headcount" class="left">到訪人數:</label>
-                   <input type="text" name="headcount" id="headcount" class="field" value="0" tabindex="1" />
+                   <input type="text" name="headcount" id="headcount" class="field" value="" tabindex="1" />
                    <div id="headcount_slider" class="slider"></div></p>             
                 <input type="hidden" name="username" id="username" value="<?php echo $this->session->userdata('name');?>">      
                 <p><input type="button" id="submit1" class="button" value="送出資料" tabindex="6" /></p>
