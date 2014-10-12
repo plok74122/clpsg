@@ -22,7 +22,7 @@
 .main {clear:both; width:970px; padding-bottom:30px; background:transparent url(../img/bg_main_withnav.jpg) top left repeat-y;}
 .main-navigation {display:inline /*Fix IE floating margin bug*/; float:left; width:200px; overflow:visible !important /*Firefox*/; overflow:hidden /*IE6*/;}
 .main-content {display:inline; /*Fix IE floating margin bug*/; float:left; width:640px; margin:0 0 0 30px; overflow:visible !important /*Firefox*/; overflow:hidden /*IE6*/;}
-.footer {clear:both; width:970px; height:3.7em; padding:1.1em 0 0; background:rgb(59, 182, 26) url(../img/bg_foot.jpg) no-repeat; font-size:1.0em; overflow:visible !important /*Firefox*/; overflow:hidden /*IE6*/;}
+.footer {clear:both; width:970px; height:3.7em; padding:1.1em 0 0; background:rgb(59, 182, 26); font-size:1.0em; overflow:visible !important /*Firefox*/; overflow:hidden /*IE6*/;}
 
 /* --- For alternative headers START PASTE here --- */
 
