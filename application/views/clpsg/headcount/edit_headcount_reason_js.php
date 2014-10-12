@@ -37,5 +37,44 @@ $(function() {
 			$("#headcount_form").get(0).submit();
 			}
 		});
+	$("#datepicker").change(function(){
+		$("#no_group").find('option').remove();
+		$.ajax({
+			url: '<?php echo base_url('headcount/get_two_week_headcount');?>',
+			data: 'query_date='+$("#datepicker").val(),
+			type:"POST",
+			dataType:'json',
+			success: function(return_json){
+				for(var i =0 ; i < return_json.no.length ; i++)
+				{
+					$("#no_group").append($("<option></option>").attr("value", return_json.no[i]).text(return_json.no_info[i]));
+				}
+      },
+		});
+	});
+	if($("#datepicker").val()!="")
+	{
+		$("#no_group").find('option').remove();
+		$.ajax({
+			url: '<?php echo base_url('headcount/get_two_week_headcount');?>',
+			data: 'query_date='+$("#datepicker").val(),
+			type:"POST",
+			dataType:'json',
+			success: function(return_json){
+			for(var i =0 ; i < return_json.no.length ; i++)
+			{
+				if($("#no").val()==return_json.no[i])
+				{
+					$("#no_group").append($("<option selected></option>").attr("value", return_json.no[i]).text(return_json.no_info[i]));
+				}
+				else
+				{
+					$("#no_group").append($("<option></option>").attr("value", return_json.no[i]).text(return_json.no_info[i]));
+				}
+			}
+			},
+		});
+
+	}
 });	
 </script>

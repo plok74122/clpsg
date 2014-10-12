@@ -11,12 +11,16 @@
                 <p><label for="region" class="left">地區:</label>
                    <input type="radio" name="region" id="region"  value="縣內" tabindex="1" />縣內
                    <input type="radio" name="region" id="region"  value="縣外" tabindex="1" />縣外
+                   <input type="radio" name="region" id="region"  value="海外" tabindex="1" />海外
                    </p>                   
                 <p><label for="date" class="left">日期:</label>
-                   <input type="text" name="date" id="datepicker" class="field" value="<?php echo date('Y-m-d');?>" tabindex="1" /></p>
+                   <input type="text" name="date" id="datepicker" class="field" value="" tabindex="1" /></p>
                 <p><label for="reason_private" class="left">事由:</label>
                    <select name="reason_private" id="reason_private" class="combo" />
-                   </select></p>	
+                   </select></p>
+                <p><label for="no_group" class="left">新建或關聯:</label>
+                   <select name="no_group" id="no_group" class="combo" />
+                   </select></p>
                 <p><label for="entry_time" class="left">進入時間:</label>
                    <input type="text" name="entry_time" id="timepicker1" class="field" value="" tabindex="1" /></p>
                 <p><label for="departure_time" class="left">離開時間:</label>

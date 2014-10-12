@@ -84,7 +84,13 @@ class Headcount extends CI_Controller {
 		{
 			echo "<script>alert('資料庫寫入出現錯誤');history.go(-1);</script>";
 		}
-	}	
+	}
+	public function get_two_week_headcount()
+	{
+		$date = $this->input->post('query_date');
+		$return_array=$this->clpsg_model->get_two_week_headcount($date);
+		echo json_encode($return_array);
+	}
 }
 
 function Html_Header()
