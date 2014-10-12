@@ -153,5 +153,28 @@ class Clpsg_model extends CI_Model {
 		}
 		return $return_array;
 	}
+	
+	//查詢問卷清單
+	public function list_need_question()
+	{
+		$str = "SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username`,'0' as `total_finish` FROM `headcount`  where `headcount`.`no` not in (select `question_answer`.`headcount_id` from `question_answer`) and `headcount`.`reason_private`='體驗課程' and `headcount`.`date` > '2014-09-30' union select `t1`.`no`, `t1`.`no_group`, `t1`.`unit`, `t1`.`region`, `t1`.`date`, `t1`.`reason_public`, `t1`.`reason_private`, `t1`.`entry_time`, `t1`.`departure_time`, `t1`.`headcount`, `t1`.`username` ,`t2`.`sum_of_qusetion` from (SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username` from `headcount` where `reason_private` ='體驗課程' and `date` > '2014-09-30' group by `no_group`) as `t1` ,(SELECT `headcount_id`,count(*) as `sum_of_qusetion` FROM `question_answer` group by `headcount_id` ,`question_list_id`) as `t2` where `t2`.`headcount_id` = `t1`.`no` and `t1`.`headcount` >`t2`.`sum_of_qusetion`";
+		$query = $this->DB_clpsg->query($str);
+		if ($query->num_rows() > 0)
+		{
+		   foreach ($query->result() as $row)
+		   {
+		      $return_array['no'][]=$row->no;
+		      $return_array['unit'][]=$row->unit;
+		      $return_array['region'][]=$row->region;
+		      $return_array['date'][]=$row->date;
+		      $return_array['reason_private'][]=$row->reason_private;
+		      $return_array['entry_time'][]=$row->entry_time;
+		      $return_array['departure_time'][]=$row->departure_time;
+		      $return_array['headcount'][]=$row->headcount;
+		      $return_array['total_finish'][]=$row->total_finish;
+		   }
+		}
+		return $return_array;
+	}
 }
 ?>
