@@ -211,7 +211,10 @@ class Clpsg_model extends CI_Model {
 				$insert_array['headcount_question_id']=$headcount_question_id;
 				$insert_array['question_list_id']=$array_key[$i];
 				$insert_array['answer']=$input_array[$array_key[$i]][$j];
-				$this->DB_clpsg->insert('question_answer',$insert_array);
+				if($insert_array['answer']!="")
+				{
+					$this->DB_clpsg->insert('question_answer',$insert_array);
+				}
 			}
 		}
 	}

@@ -9,6 +9,7 @@ class Question extends CI_Controller {
 		$this->load->helper(array('html','url'));
 		$this->load->library(array('parser','session'));
 	}
+	
 	public function index()
 	{
 	}
@@ -44,14 +45,27 @@ class Question extends CI_Controller {
 			$view_array['question_html_list']=$this->clpsg_model->query_questions_and_htmlcode();
 			$this->load->view('clpsg/question/write_question',$view_array);
 			$this->load->view("clpsg/templates/footer");
+			$this->load->view('clpsg/question/write_question_js');
 		}
 	}
 	public function insert_question()
 	{
 		Html_Header();
 		$input_array = $this->input->post();
-		$this->clpsg_model->insert_question($input_array);
-		echo "<script>window.location='".base_url('question/write_answer_question/'.$input_array['headcount_id'])."'</script>";
+		$check_array = $input_array;
+		unset($check_array['headcount_id']);
+		unset($check_array['headcount_question_id']);
+		unset($check_array['10']);
+		unset($check_array['11']);
+		if(count($check_array) != 9)
+		{
+			echo "<script>alert('參數有缺少，請至少完成1-9題的內容!');history.go(-1);</script>";
+		}
+		else
+		{
+			$this->clpsg_model->insert_question($input_array);
+			echo "<script>window.location='".base_url('question/write_answer_question/'.$input_array['headcount_id'])."'</script>";
+		}
 	}
 }
 
