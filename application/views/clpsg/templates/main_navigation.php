@@ -26,8 +26,7 @@
 			<h1 class="first">問卷統計</h1>
 				<!-- Navigation with grid style -->
 				<dl class="nav3-grid">
-					<dt><a href="">輸入問卷內容</a></dt>
-					<dt><a href="">統計列表(前20)</a></dt>
+					<dt><a href="<?php echo base_url('question/list_need_question');?>">問卷列表</a></dt>
 					<dt><a href="">問卷查詢</a></dt>
 				</dl>
 			<h1><a href="<?php echo base_url('clpsg/logut');?>">登出</a></h1>

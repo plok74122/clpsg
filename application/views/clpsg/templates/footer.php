@@ -1,4 +1,4 @@
-</div> <!--¦¬±¼«e­±ªºDIV-->
+</div> <!--æ”¶æŽ‰å‰é¢çš„DIV-->
 <div class="footer">
       <p>Copyright &copy; 2014 plok74122 | All Rights Reserved</p>
     </div>      

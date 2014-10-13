@@ -157,7 +157,7 @@ class Clpsg_model extends CI_Model {
 	//查詢問卷清單
 	public function list_need_question()
 	{
-		$str = "SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username`,'0' as `total_finish` FROM `headcount`  where `headcount`.`no` not in (select `question_answer`.`headcount_id` from `question_answer`) and `headcount`.`reason_private`='體驗課程' and `headcount`.`date` > '2014-09-30' union select `t1`.`no`, `t1`.`no_group`, `t1`.`unit`, `t1`.`region`, `t1`.`date`, `t1`.`reason_public`, `t1`.`reason_private`, `t1`.`entry_time`, `t1`.`departure_time`, `t1`.`headcount`, `t1`.`username` ,`t2`.`sum_of_qusetion` from (SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username` from `headcount` where `reason_private` ='體驗課程' and `date` > '2014-09-30' group by `no_group`) as `t1` ,(SELECT `headcount_id`,count(*) as `sum_of_qusetion` FROM `question_answer` group by `headcount_id` ,`question_list_id`) as `t2` where `t2`.`headcount_id` = `t1`.`no` and `t1`.`headcount` >`t2`.`sum_of_qusetion`";
+		$str = "SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username`,'0' as `total_finish` FROM `headcount`  where `headcount`.`no` not in (select `question_answer`.`headcount_id` from `question_answer`) and `headcount`.`reason_private`='體驗課程' and `headcount`.`date` > '2014-09-30' union select `t1`.`no`, `t1`.`no_group`, `t1`.`unit`, `t1`.`region`, `t1`.`date`, `t1`.`reason_public`, `t1`.`reason_private`, `t1`.`entry_time`, `t1`.`departure_time`, `t1`.`headcount`, `t1`.`username` ,`t2`.`sum_of_qusetion` from (SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username` from `headcount` where `reason_private` ='體驗課程' and `date` > '2014-09-30' group by `no_group`) as `t1` ,(SELECT `headcount_id`,count(distinct(`headcount_question_id`)) as `sum_of_qusetion` FROM `question_answer` group by `headcount_id`) as `t2` where `t2`.`headcount_id` = `t1`.`no` and `t1`.`headcount` >`t2`.`sum_of_qusetion`";
 		$query = $this->DB_clpsg->query($str);
 		if ($query->num_rows() > 0)
 		{
@@ -175,6 +175,45 @@ class Clpsg_model extends CI_Model {
 		   }
 		}
 		return $return_array;
+	}
+	//查詢單筆參訪有多少問卷
+	public function query_how_many_question($headlist_id)
+	{
+		$str = "SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username`,'0' as `total_finish` FROM `headcount`  where `headcount`.`no` not in (select `question_answer`.`headcount_id` from `question_answer`) and `headcount`.`reason_private`='體驗課程' and `headcount`.`date` > '2014-09-30' and `no`='".$headlist_id."' union select `t1`.`no`, `t1`.`no_group`, `t1`.`unit`, `t1`.`region`, `t1`.`date`, `t1`.`reason_public`, `t1`.`reason_private`, `t1`.`entry_time`, `t1`.`departure_time`, `t1`.`headcount`, `t1`.`username` ,`t2`.`sum_of_qusetion` from (SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username` from `headcount` where `reason_private` ='體驗課程' and `date` > '2014-09-30' and `no`='".$headlist_id."' group by `no_group`) as `t1` ,(SELECT `headcount_id`,count(distinct(`headcount_question_id`)) as `sum_of_qusetion` FROM `question_answer` group by `headcount_id`) as `t2` where `t2`.`headcount_id` = `t1`.`no` and `t1`.`headcount` >`t2`.`sum_of_qusetion`";
+		$query = $this->DB_clpsg->query($str);
+		$return_array=$query->first_row('array');
+		return $return_array;
+	}
+	//查詢問卷題目與其html語法
+	public function query_questions_and_htmlcode()
+	{
+		$query=$this->DB_clpsg->get('question_list');
+		foreach ($query->result() as $row)
+		{
+			$return_array['no'][]=$row->no;
+			$return_array['question'][]=$row->question;
+			$return_array['ansmode'][]=$row->ansmode;
+		}
+		return $return_array;
+	}	
+	public function insert_question($input_array)
+	{
+		$headcount_id = $input_array['headcount_id'];
+		$headcount_question_id = $input_array['headcount_question_id'];
+		unset($input_array['headcount_id']);
+		unset($input_array['headcount_question_id']);
+		$array_key = array_keys($input_array);
+		for($i = 0 ; $i<count($array_key); $i++)
+		{
+			for($j = 0 ; $j < count($input_array[$array_key[$i]]); $j++)
+			{
+				$insert_array['headcount_id']=$headcount_id;
+				$insert_array['headcount_question_id']=$headcount_question_id;
+				$insert_array['question_list_id']=$array_key[$i];
+				$insert_array['answer']=$input_array[$array_key[$i]][$j];
+				$this->DB_clpsg->insert('question_answer',$insert_array);
+			}
+		}
 	}
 }
 ?>
