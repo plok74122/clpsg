@@ -27,7 +27,8 @@
 				<!-- Navigation with grid style -->
 				<dl class="nav3-grid">
 					<dt><a href="<?php echo base_url('question/list_need_question');?>">問卷列表</a></dt>
-					<dt><a href="">問卷查詢</a></dt>
+					<dt><a href="<?php echo base_url('question/query_question_by_headcount_list');?>">問卷統計(梯次)</a></dt>
+					<dt><a href="<?php echo base_url('question/question_statistics_by_date_choose');?>">問卷統計(時間)</a></dt>
 				</dl>
 			<h1><a href="<?php echo base_url('clpsg/logut');?>">登出</a></h1>
         <?php endif;?>
