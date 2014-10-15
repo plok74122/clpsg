@@ -67,6 +67,73 @@ class Question extends CI_Controller {
 			echo "<script>window.location='".base_url('question/write_answer_question/'.$input_array['headcount_id'])."'</script>";
 		}
 	}
+	public function query_question_by_headcount_list()
+	{
+		Html_Header();
+		$this->load->view("clpsg/templates/header");
+		$this->load->view('clpsg/templates/main_navigation');
+		$view_array['list_need_question']=$this->clpsg_model->query_question_by_headcount_list();
+		$this->load->view('clpsg/question/query_question_by_headcount_list',$view_array);
+		$this->load->view("clpsg/templates/footer");
+	}
+	public function query_question_by_headcount()
+	{
+		Html_Header();
+		jquery_time_require();
+		$headlist_id = $this->input->post('headlist_id');
+		$return_array = $this->clpsg_model->query_question_by_headcount_list($headlist_id);
+		if($return_array['total_finish']=="")
+		{
+			echo "<script>alert('此參訪沒有問卷');window.location='".base_url('question/query_question_by_headcount_list')."';</script>";
+		}
+		else
+		{
+			$retrun_array =$this->clpsg_model->question_statistics_by_headlist_id($headlist_id);
+			$this->load->view("clpsg/templates/header");
+			$this->load->view('clpsg/templates/main_navigation');
+			$view_array['question_statistics_by_headlist_id']=$retrun_array;
+			$view_array['array_keys']=array_keys($retrun_array);
+			$view_array['query_questions_and_htmlcode']=$this->clpsg_model->query_questions_and_htmlcode();
+			$view_array['write_question_info']=$this->clpsg_model->query_how_many_question_by_date($headlist_id);
+			$this->load->view('clpsg/question/question_statistics_by_headlist_id',$view_array);
+			$this->load->view("clpsg/templates/footer");
+			$this->load->view('clpsg/question/question_statistics_highcharts_pie_basic_js',$view_array);
+		}		
+	}
+	public function question_statistics_by_date_choose()
+	{
+		Html_Header();
+		jquery_time_require();
+		$this->load->view("clpsg/templates/header");
+		$this->load->view('clpsg/templates/main_navigation');
+		$this->load->view('clpsg/question/question_statistics_by_date_choose');
+		$this->load->view("clpsg/templates/footer");
+	}	
+	public function question_statistics_by_date()
+	{
+		Html_Header();
+		jquery_time_require();
+		$date1 = $this->input->post('date1');
+		$date2 = $this->input->post('date2');
+		if($date1=="" or $date2=="")
+		{
+			echo "<script>alert('參數有缺少，請選擇兩個日期!');history.go(-1);</script>";
+		}
+		else
+		{
+			$headlist_id = $this->clpsg_model->question_headcount_id_array_by_date($date1,$date2);
+			$retrun_array =$this->clpsg_model->question_statistics_by_headlist_id($headlist_id);
+			$this->load->view("clpsg/templates/header");
+			$this->load->view('clpsg/templates/main_navigation');
+			$view_array['question_statistics_by_headlist_id']=$retrun_array;
+			$view_array['array_keys']=array_keys($retrun_array);
+			$view_array['query_questions_and_htmlcode']=$this->clpsg_model->query_questions_and_htmlcode();
+			$view_array['write_question_info']=$this->clpsg_model->query_how_many_question_by_date($headlist_id);
+			$this->load->view('clpsg/question/question_statistics_by_headlist_id',$view_array);
+			$this->load->view("clpsg/templates/footer");
+			$this->load->view('clpsg/question/question_statistics_highcharts_pie_basic_js',$view_array);
+		}
+	}
 }
 
 function Html_Header()
@@ -102,6 +169,8 @@ function jquery_time_require()
 	echo script_tag('assets/js/control/datepickerCHT.js');	
 	echo script_tag('assets/js/control/timepicker.js');	
 	echo script_tag('assets/js/control/slider.js');	
+	echo script_tag('assets/js/highcharts/highcharts.js');	
+	echo script_tag('assets/js/highcharts/modules/exporting.js');	
 //	echo script_tag('assets/js/control/reason.js');	
 	echo link_tag(array('href'=>'assets/js/jquery/jquery-ui.css', 'rel' => 'stylesheet','type' => 'text/css','media'=>'screen,projection,print'));
 	echo link_tag(array('href'=>'assets/js/jquery/jquery-ui-timepicker-addon.css', 'rel' => 'stylesheet','type' => 'text/css','media'=>'screen,projection,print'));

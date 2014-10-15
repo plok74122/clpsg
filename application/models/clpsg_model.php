@@ -179,11 +179,32 @@ class Clpsg_model extends CI_Model {
 	//查詢單筆參訪有多少問卷
 	public function query_how_many_question($headlist_id)
 	{
-		$str = "SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username`,'0' as `total_finish` FROM `headcount`  where `headcount`.`no` not in (select `question_answer`.`headcount_id` from `question_answer`) and `headcount`.`reason_private`='體驗課程' and `headcount`.`date` > '2014-09-30' and `no`='".$headlist_id."' union select `t1`.`no`, `t1`.`no_group`, `t1`.`unit`, `t1`.`region`, `t1`.`date`, `t1`.`reason_public`, `t1`.`reason_private`, `t1`.`entry_time`, `t1`.`departure_time`, `t1`.`headcount`, `t1`.`username` ,`t2`.`sum_of_qusetion` from (SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username` from `headcount` where `reason_private` ='體驗課程' and `date` > '2014-09-30' and `no`='".$headlist_id."' group by `no_group`) as `t1` ,(SELECT `headcount_id`,count(distinct(`headcount_question_id`)) as `sum_of_qusetion` FROM `question_answer` group by `headcount_id`) as `t2` where `t2`.`headcount_id` = `t1`.`no` and `t1`.`headcount` >`t2`.`sum_of_qusetion`";
+		$str = "SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username`,'0' as `total_finish` FROM `headcount`  where `headcount`.`no` not in (select `question_answer`.`headcount_id` from `question_answer`) and `headcount`.`reason_private`='體驗課程' and `headcount`.`date` > '2014-09-30' and `no` ='".$headlist_id."' union select `t1`.`no`, `t1`.`no_group`, `t1`.`unit`, `t1`.`region`, `t1`.`date`, `t1`.`reason_public`, `t1`.`reason_private`, `t1`.`entry_time`, `t1`.`departure_time`, `t1`.`headcount`, `t1`.`username` ,`t2`.`sum_of_qusetion` from (SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username` from `headcount` where `reason_private` ='體驗課程' and `date` > '2014-09-30' and `no`='".$headlist_id."' group by `no_group`) as `t1` ,(SELECT `headcount_id`,count(distinct(`headcount_question_id`)) as `sum_of_qusetion` FROM `question_answer` group by `headcount_id`) as `t2` where `t2`.`headcount_id` = `t1`.`no` and `t1`.`headcount` >`t2`.`sum_of_qusetion`";
 		$query = $this->DB_clpsg->query($str);
-		$return_array=$query->first_row('array');
+		$return_array = $query->first_row('array');
 		return $return_array;
 	}
+	//查詢階段日期需要的時間
+	public function query_how_many_question_by_date($headlist_id)
+	{
+		$str = "SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username`,'0' as `total_finish` FROM `headcount`  where `headcount`.`no` not in (select `question_answer`.`headcount_id` from `question_answer`) and `headcount`.`reason_private`='體驗課程' and `headcount`.`date` > '2014-09-30' and `no` in ('".implode("','",$headlist_id)."') union select `t1`.`no`, `t1`.`no_group`, `t1`.`unit`, `t1`.`region`, `t1`.`date`, `t1`.`reason_public`, `t1`.`reason_private`, `t1`.`entry_time`, `t1`.`departure_time`, `t1`.`headcount`, `t1`.`username` ,`t2`.`sum_of_qusetion` from (SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username` from `headcount` where `reason_private` ='體驗課程' and `date` > '2014-09-30' and `no` in ('".implode("','",$headlist_id)."') group by `no_group`) as `t1` ,(SELECT `headcount_id`,count(distinct(`headcount_question_id`)) as `sum_of_qusetion` FROM `question_answer` group by `headcount_id`) as `t2` where `t2`.`headcount_id` = `t1`.`no` and `t1`.`headcount` >=`t2`.`sum_of_qusetion`";
+		$query = $this->DB_clpsg->query($str);
+		foreach ($query->result() as $row)
+		{
+			$return_array['no'][]=$row->no;
+			$return_array['unit'][]=$row->unit;
+			$return_array['date'][]=$row->date;
+			$return_array['no_group'][]=$row->no_group;
+			$return_array['date'][]=$row->date;
+			$return_array['reason_private'][]=$row->reason_private;
+			$return_array['reason_public'][]=$row->reason_public;
+			$return_array['headcount'][]=$row->headcount;
+			$return_array['total_finish'][]=$row->total_finish;
+			$return_array['region'][]=$row->region;
+		}
+		return $return_array;
+	}
+
 	//查詢問卷題目與其html語法
 	public function query_questions_and_htmlcode()
 	{
@@ -218,5 +239,62 @@ class Clpsg_model extends CI_Model {
 			}
 		}
 	}
+	public function query_question_by_headcount_list()
+	{
+		$str = "SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username`,'0' as `total_finish` FROM `headcount`  where `headcount`.`no` not in (select `question_answer`.`headcount_id` from `question_answer`) and `headcount`.`reason_private`='體驗課程' and `headcount`.`date` > '2014-09-30' union select `t1`.`no`, `t1`.`no_group`, `t1`.`unit`, `t1`.`region`, `t1`.`date`, `t1`.`reason_public`, `t1`.`reason_private`, `t1`.`entry_time`, `t1`.`departure_time`, `t1`.`headcount`, `t1`.`username` ,`t2`.`sum_of_qusetion` from (SELECT  `no`, `no_group`, `unit`, `region`, `date`, `reason_public`, `reason_private`, `entry_time`, `departure_time`, `headcount`, `username` from `headcount` where `reason_private` ='體驗課程' and `date` > '2014-09-30' group by `no_group`) as `t1` ,(SELECT `headcount_id`,count(distinct(`headcount_question_id`)) as `sum_of_qusetion` FROM `question_answer` group by `headcount_id`) as `t2` where `t2`.`headcount_id` = `t1`.`no` and `t1`.`headcount` >=`t2`.`sum_of_qusetion`";
+		$query = $this->DB_clpsg->query($str);
+		if ($query->num_rows() > 0)
+		{
+		   foreach ($query->result() as $row)
+		   {
+		      $return_array['no'][]=$row->no;
+		      $return_array['unit'][]=$row->unit;
+		      $return_array['region'][]=$row->region;
+		      $return_array['date'][]=$row->date;
+		      $return_array['reason_private'][]=$row->reason_private;
+		      $return_array['entry_time'][]=$row->entry_time;
+		      $return_array['departure_time'][]=$row->departure_time;
+		      $return_array['headcount'][]=$row->headcount;
+		      $return_array['total_finish'][]=$row->total_finish;
+		   }
+		}
+		return $return_array;
+	}
+	public function question_headcount_id_array_by_date($date1,$date2)
+	{
+		$str = "SELECT `no` FROM `headcount` where (`date` BETWEEN '".$date1."' and '".$date2."') and `reason_private`='體驗課程'";
+		$query = $this->DB_clpsg->query($str);
+		foreach ($query->result() as $row)
+		{
+			$return_array[]=$row->no;
+		}
+		return $return_array;
+	}
+	public function question_statistics_by_headlist_id($headlist_id)
+	{
+		$str = "SELECT `question_answer_type`.`question_list_id`, `question_answer_type`.`answer_type` , (SELECT count(*) from `question_answer` where `question_answer_type`.`question_list_id` = `question_answer`.`question_list_id` and `question_answer_type`.`answer_type` =`question_answer`.`answer` and `question_answer`.`headcount_id` in ('".implode("','",$headlist_id)."')) as `total` FROM `question_answer_type`";
+		$query = $this->DB_clpsg->query($str);
+		foreach ($query->result() as $row)
+		{
+			$return_array[$row->question_list_id]['answer_type'][]=$row->answer_type;
+			$return_array[$row->question_list_id]['total'][]=$row->total;
+		}
+		return $return_array;
+	}
+//	public function question_str_by_headlist_id($headlist_id)
+//	{
+//		$str = "SELECT  `question_list`.`question` as `question` , group_concat(`question_answer`.`answer` , '<br>') as `answer` FROM `question_answer` , `question_list` where `question_answer`.`headcount_id`='".$headlist_id."' and `question_list`.`no`= '10' and `question_answer`.`question_list_id`='10'";
+//		foreach ($query->result() as $row)
+//		{
+//			$return_array['question'][]=$row->question;
+//			$return_array['answer'][]=$row->answer;
+//		}
+//		$str =  "SELECT  `question_list`.`question` as `question` , group_concat(`question_answer`.`answer` , '<br>') as `answer` FROM `question_answer` , `question_list` where `question_answer`.`headcount_id`='".$headlist_id."' and `question_list`.`no`= '11' and `question_answer`.`question_list_id`='11'";
+//		foreach ($query->result() as $row)
+//		{
+//			$return_array['question'][]=$row->question;
+//			$return_array['answer'][]=$row->answer;
+//		}
+//	}
 }
 ?>
