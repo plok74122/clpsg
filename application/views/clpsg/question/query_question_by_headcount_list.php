@@ -10,7 +10,7 @@
 							<td><?php echo $list_need_question['reason_private'][$i];?></td>
 							<th><?php echo $list_need_question['total_finish'][$i]."/".$list_need_question['headcount'][$i];?></td>
 							<td><?php echo $list_need_question['region'][$i];?></td>
-							<td><form action="<?php echo base_url('question/query_question_by_headcount/');?>" method="post"><input type="hidden" name="headlist_id[]" value="<?php echo $list_need_question['no'][$i];?>"><input type="submit" class="btn btn-danger" value="統計圖"></form></a></td>
+							<td><form action="<?php echo base_url('question/query_question_by_headcount/');?>" method="post"><input type="hidden" name="headlist_id[]" value="<?php echo $list_need_question['no'][$i];?>"><input type="submit" class="btn btn-danger" value="統計圖"></form><form action="<?php echo base_url('question/printA4_question_statistics_by_headlist_id/');?>" method="post"><input type="hidden" name="headlist_id[]" value="<?php echo $list_need_question['no'][$i];?>"><input type="submit" class="btn btn-success" value="A4列印"></form></a></td>
 						</tr>
 					<?php endfor;?>
           </table>
