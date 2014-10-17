@@ -21,7 +21,7 @@
 				<dl class="nav3-grid">
 					<dt><a href="<?php echo base_url('headcount/add_count');?>">輸入參訪人數</a></dt>
 					<dt><a href="<?php echo base_url('headcount/list_headcount');?>">統計列表(近30筆)</a></dt>
-					<dt><a href="">區段統計查詢</a></dt>
+					<dt><a href="<?php echo base_url('headcount/headcount_statistics_by_date_choos');?>">區段統計查詢</a></dt>
 				</dl>
 			<h1 class="first">問卷統計</h1>
 				<!-- Navigation with grid style -->
