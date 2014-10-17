@@ -342,7 +342,7 @@ class Clpsg_model extends CI_Model {
 	}
 	public function headcount_statistics_by_headlist_id_public($headlist_id)
 	{
-		$str = "SELECT `reason`.`no`, `reason`.`public` , sum((select  IF(sum(`headcount`.`headcount`) is NULL,0,sum(`headcount`.`headcount`))  FROM `headcount` where `reason`.`private`=`headcount`.`reason_private` and `headcount`.`no` in ('".implode("','",$headlist_id)."')   group by `headcount`.`reason_public`)) as `total` FROM `reason` group by `public` order by `reason`.`no`";
+		$str = "SELECT `reason`.`no`, `reason`.`public` , (select  IF(sum(`headcount`.`headcount`) is NULL,0,sum(`headcount`.`headcount`))  FROM `headcount` where `reason`.`public`=`headcount`.`reason_public` and `headcount`.`no` in ('".implode("','",$headlist_id)."')   group by `headcount`.`reason_public`) as `total` FROM `reason` group by `public` order by `reason`.`no`";
 		$query = $this->DB_clpsg->query($str);
 		foreach ($query->result() as $row)
 		{
@@ -360,7 +360,7 @@ class Clpsg_model extends CI_Model {
 	}
 	public function headcount_statistics_by_headlist_id_week_in_private($date1,$date2)
 	{
-		$str = "SELECT `t1`.`year`,`t1`.`week` , concat(`t1`.`year`,'年 第',`t1`.`week`,'周') as `show_time`,`t2`.`private` ,(select IF(sum(`headcount`.`headcount`) is NULL , 0 , sum(`headcount`.`headcount`)) from `headcount` where YEAR(`headcount`.`date`)=`t1`.`year` and week(`headcount`.`date`)=`t1`.`week` and `headcount`.`reason_private`=`t2`.`private`) as `total` from
+		$str = "SELECT `t1`.`year`,`t1`.`week` , concat(`t1`.`week`+1,'周') as `show_time`,`t2`.`private` ,(select IF(sum(`headcount`.`headcount`) is NULL , 0 , sum(`headcount`.`headcount`)) from `headcount` where YEAR(`headcount`.`date`)=`t1`.`year` and week(`headcount`.`date`)=`t1`.`week` and `headcount`.`reason_private`=`t2`.`private`) as `total` from
 						(select YEAR(`t_allday`.`selected_date`) as `year` , week(`t_allday`.`selected_date`) as `week` from (
 							select * from 
 						 (select adddate('".$date1."',  t2.i*100 + t1.i*10 + t0.i) selected_date from
@@ -374,7 +374,7 @@ class Clpsg_model extends CI_Model {
 		foreach ($query->result() as $row)
 		{
 			$return_array['year'][]=$row->year;
-			$return_array['week'][]=$row->week;
+			$return_array['week'][]=$row->week+1;
 			$return_array['show_time'][]=$row->show_time;
 			$return_array['private'][]=$row->private;
 			$return_array['total'][]=$row->total;
@@ -406,7 +406,7 @@ class Clpsg_model extends CI_Model {
 	}
 	public function headcount_statistics_by_headlist_id_week_in_public($date1,$date2)
 	{
-		$str = "SELECT `t1`.`year`,`t1`.`week` , concat(`t1`.`year`,'年 第',`t1`.`week`,'周') as `show_time`,`t2`.`public` ,(select IF(sum(`headcount`.`headcount`) is NULL , 0 , sum(`headcount`.`headcount`)) from `headcount` where YEAR(`headcount`.`date`)=`t1`.`year` and week(`headcount`.`date`)=`t1`.`week` and `headcount`.`reason_public`=`t2`.`public`) as `total` from
+		$str = "SELECT `t1`.`year`,`t1`.`week` , concat(`t1`.`week`+1,'周') as `show_time`,`t2`.`public` ,(select IF(sum(`headcount`.`headcount`) is NULL , 0 , sum(`headcount`.`headcount`)) from `headcount` where YEAR(`headcount`.`date`)=`t1`.`year` and week(`headcount`.`date`)=`t1`.`week` and `headcount`.`reason_public`=`t2`.`public`) as `total` from
 						(select YEAR(`t_allday`.`selected_date`) as `year` , week(`t_allday`.`selected_date`) as `week` from (
 							select * from 
 						 (select adddate('".$date1."',  t2.i*100 + t1.i*10 + t0.i) selected_date from
@@ -420,7 +420,7 @@ class Clpsg_model extends CI_Model {
 		foreach ($query->result() as $row)
 		{
 			$return_array['year'][]=$row->year;
-			$return_array['week'][]=$row->week;
+			$return_array['week'][]=($row->week);
 			$return_array['show_time'][]=$row->show_time;
 			$return_array['public'][]=$row->public;
 			$return_array['total'][]=$row->total;

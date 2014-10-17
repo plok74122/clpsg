@@ -120,7 +120,6 @@ class Headcount extends CI_Controller {
 			$headcount_statistics_by_headlist_id_private =$this->clpsg_model->headcount_statistics_by_headlist_id_private($headlist_id);
 			//查詢所有參訪類別在這些no值的總分類總數(外部)
 			$headcount_statistics_by_headlist_id_public =$this->clpsg_model->headcount_statistics_by_headlist_id_public($headlist_id);
-			print_r($headcount_statistics_by_headlist_id_public);
 			//查詢每周所有NO值的分類總數(內部)
 			$headcount_statistics_by_headlist_id_week_in_private =$this->clpsg_model->headcount_statistics_by_headlist_id_week_in_private($date1,$date2);
 			//查詢每月所有NO值的分類總數(內部)
