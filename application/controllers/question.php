@@ -134,6 +134,27 @@ class Question extends CI_Controller {
 			$this->load->view('clpsg/question/question_statistics_highcharts_pie_basic_js',$view_array);
 		}
 	}
+	public function printA4_question_statistics_by_headlist_id()
+	{
+		Html_Header();
+		jquery_time_require();
+		$headlist_id = $this->input->post('headlist_id');
+		$return_array = $this->clpsg_model->query_question_by_headcount_list($headlist_id);
+		if($return_array['total_finish']=="")
+		{
+			echo "<script>alert('此參訪沒有問卷');window.location='".base_url('question/query_question_by_headcount_list')."';</script>";
+		}
+		else
+		{
+			$retrun_array =$this->clpsg_model->question_statistics_by_headlist_id($headlist_id);
+			$view_array['question_statistics_by_headlist_id']=$retrun_array;
+			$view_array['array_keys']=array_keys($retrun_array);
+			$view_array['query_questions_and_htmlcode']=$this->clpsg_model->query_questions_and_htmlcode();
+			$view_array['write_question_info']=$this->clpsg_model->query_how_many_question_by_date($headlist_id);
+			$this->load->view('clpsg/question/printA4_question_statistics_by_headlist_id',$view_array);
+			$this->load->view('clpsg/question/printA4_question_statistics_highcharts_pie_basic_js',$view_array);
+		}		
+	}
 }
 
 function Html_Header()
@@ -170,7 +191,7 @@ function jquery_time_require()
 	echo script_tag('assets/js/control/timepicker.js');	
 	echo script_tag('assets/js/control/slider.js');	
 	echo script_tag('assets/js/highcharts/highcharts.js');	
-	echo script_tag('assets/js/highcharts/modules/exporting.js');	
+//	echo script_tag('assets/js/highcharts/modules/exporting.js');	
 //	echo script_tag('assets/js/control/reason.js');	
 	echo link_tag(array('href'=>'assets/js/jquery/jquery-ui.css', 'rel' => 'stylesheet','type' => 'text/css','media'=>'screen,projection,print'));
 	echo link_tag(array('href'=>'assets/js/jquery/jquery-ui-timepicker-addon.css', 'rel' => 'stylesheet','type' => 'text/css','media'=>'screen,projection,print'));

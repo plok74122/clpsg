@@ -296,5 +296,159 @@ class Clpsg_model extends CI_Model {
 //			$return_array['answer'][]=$row->answer;
 //		}
 //	}
+	public function query_headcount_id_array_by_date($date1,$date2)
+	{
+		$str = "SELECT `no` FROM `headcount` where (`date` BETWEEN '".$date1."' and '".$date2."')";
+		$query = $this->DB_clpsg->query($str);
+		foreach ($query->result() as $row)
+		{
+			$return_array[]=$row->no;
+		}
+		return $return_array;
+	}
+	public function query_headlist_id_info_list($headlist_id)
+	{
+		$str = "SELECT * FROM `headcount` WHERE `no` in ('".implode("','",$headlist_id)."') group by `no_group`";
+		$query = $this->DB_clpsg->query($str);
+		foreach ($query->result() as $row)
+		{
+			$return_array['no'][]=$row->no;
+			$return_array['unit'][]=$row->unit;
+			$return_array['region'][]=$row->region;
+			$return_array['date'][]=$row->date;
+			$return_array['reason_public'][]=$row->reason_public;
+			$return_array['reason_private'][]=$row->reason_private;
+			$return_array['headcount'][]=$row->headcount;
+		}
+		return $return_array;
+	}
+	public function headcount_statistics_by_headlist_id_private($headlist_id)
+	{
+		$str = "SELECT `reason`.`no`,  `reason`.`private` , (select  IF(sum(`headcount`.`headcount`) is NULL,0,sum(`headcount`.`headcount`))  FROM `headcount` where `reason`.`private`=`headcount`.`reason_private` and `headcount`.`no` in ('".implode("','",$headlist_id)."')   group by `headcount`.`reason_private`) as `total` FROM `reason` order by `reason`.`no`";
+		$query = $this->DB_clpsg->query($str);
+		foreach ($query->result() as $row)
+		{
+			$return_array['reason_private'][]=$row->private;
+			if($row->total=="")
+			{
+				$return_array['total'][]=0;
+			}
+			else
+			{
+				$return_array['total'][]=$row->total;
+			}
+		}
+		return $return_array;
+	}
+	public function headcount_statistics_by_headlist_id_public($headlist_id)
+	{
+		$str = "SELECT `reason`.`no`, `reason`.`public` , sum((select  IF(sum(`headcount`.`headcount`) is NULL,0,sum(`headcount`.`headcount`))  FROM `headcount` where `reason`.`private`=`headcount`.`reason_private` and `headcount`.`no` in ('".implode("','",$headlist_id)."')   group by `headcount`.`reason_public`)) as `total` FROM `reason` group by `public` order by `reason`.`no`";
+		$query = $this->DB_clpsg->query($str);
+		foreach ($query->result() as $row)
+		{
+			$return_array['reason_public'][]=$row->public;
+			if($row->total=="")
+			{
+				$return_array['total'][]=0;
+			}
+			else
+			{
+				$return_array['total'][]=$row->total;
+			}
+		}
+		return $return_array;
+	}
+	public function headcount_statistics_by_headlist_id_week_in_private($date1,$date2)
+	{
+		$str = "SELECT `t1`.`year`,`t1`.`week` , concat(`t1`.`year`,'年 第',`t1`.`week`,'周') as `show_time`,`t2`.`private` ,(select IF(sum(`headcount`.`headcount`) is NULL , 0 , sum(`headcount`.`headcount`)) from `headcount` where YEAR(`headcount`.`date`)=`t1`.`year` and week(`headcount`.`date`)=`t1`.`week` and `headcount`.`reason_private`=`t2`.`private`) as `total` from
+						(select YEAR(`t_allday`.`selected_date`) as `year` , week(`t_allday`.`selected_date`) as `week` from (
+							select * from 
+						 (select adddate('".$date1."',  t2.i*100 + t1.i*10 + t0.i) selected_date from
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2) v
+						where selected_date between '".$date1."' and '".$date2."') as `t_allday` group by YEAR(`t_allday`.`selected_date`) ,week(`t_allday`.`selected_date`)) as `t1` 
+						 join (SELECT `no`,`private` FROM `reason` order by `no` ) as `t2` 
+						order by `t1`.`year`,`t1`.`week`,`t2`.`no` , `t2`.`private`";
+		$query = $this->DB_clpsg->query($str);
+		foreach ($query->result() as $row)
+		{
+			$return_array['year'][]=$row->year;
+			$return_array['week'][]=$row->week;
+			$return_array['show_time'][]=$row->show_time;
+			$return_array['private'][]=$row->private;
+			$return_array['total'][]=$row->total;
+		}
+		return $return_array;
+	}
+	public function headcount_statistics_by_headlist_id_month_in_private($date1,$date2)
+	{
+		$str = "SELECT `t1`.`year`,`t1`.`month` ,concat(`t1`.`year`,'年',`t1`.`month`,'月') as `show_time`, `t2`.`private` ,(select IF(sum(`headcount`.`headcount`) is NULL , 0 , sum(`headcount`.`headcount`)) from `headcount` where YEAR(`headcount`.`date`)=`t1`.`year` and MONTH(`headcount`.`date`)=`t1`.`month` and `headcount`.`reason_private`=`t2`.`private`) as `total` from 
+						(select YEAR(`t_allday`.`selected_date`) as `year` , MONTH(`t_allday`.`selected_date`) as `month` from (
+						select * from 
+						(select adddate('".$date1."',  t2.i*100 + t1.i*10 + t0.i) selected_date from
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2) v
+						where selected_date between '".$date1."' and '".$date2."') as `t_allday` group by YEAR(`t_allday`.`selected_date`) , MONTH(`t_allday`.`selected_date`)) as `t1` join 
+						(SELECT `no`,`private` FROM `reason` order by `no`) as `t2` 
+						order by `t1`.`year`,`t1`.`month`,`t2`.`no` , `t2`.`private`";
+		$query = $this->DB_clpsg->query($str);
+		foreach ($query->result() as $row)
+		{
+			$return_array['year'][]=$row->year;
+			$return_array['month'][]=$row->month;
+			$return_array['show_time'][]=$row->show_time;
+			$return_array['private'][]=$row->private;
+			$return_array['total'][]=$row->total;
+		}
+		return $return_array;
+	}
+	public function headcount_statistics_by_headlist_id_week_in_public($date1,$date2)
+	{
+		$str = "SELECT `t1`.`year`,`t1`.`week` , concat(`t1`.`year`,'年 第',`t1`.`week`,'周') as `show_time`,`t2`.`public` ,(select IF(sum(`headcount`.`headcount`) is NULL , 0 , sum(`headcount`.`headcount`)) from `headcount` where YEAR(`headcount`.`date`)=`t1`.`year` and week(`headcount`.`date`)=`t1`.`week` and `headcount`.`reason_public`=`t2`.`public`) as `total` from
+						(select YEAR(`t_allday`.`selected_date`) as `year` , week(`t_allday`.`selected_date`) as `week` from (
+							select * from 
+						 (select adddate('".$date1."',  t2.i*100 + t1.i*10 + t0.i) selected_date from
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2) v
+						where selected_date between '".$date1."' and '".$date2."') as `t_allday` group by YEAR(`t_allday`.`selected_date`) ,week(`t_allday`.`selected_date`)) as `t1` 
+						 join (SELECT `no`,`public` FROM `reason` group by `public` order by `no` ) as `t2` 
+						order by `t1`.`year`,`t1`.`week`,`t2`.`no` , `t2`.`public`";
+		$query = $this->DB_clpsg->query($str);
+		foreach ($query->result() as $row)
+		{
+			$return_array['year'][]=$row->year;
+			$return_array['week'][]=$row->week;
+			$return_array['show_time'][]=$row->show_time;
+			$return_array['public'][]=$row->public;
+			$return_array['total'][]=$row->total;
+		}
+		return $return_array;
+	}
+	public function headcount_statistics_by_headlist_id_month_in_public($date1,$date2)
+	{
+		$str = "SELECT `t1`.`year`,`t1`.`month` ,concat(`t1`.`year`,'年',`t1`.`month`,'月') as `show_time`, `t2`.`public` ,(select IF(sum(`headcount`.`headcount`) is NULL , 0 , sum(`headcount`.`headcount`)) from `headcount` where YEAR(`headcount`.`date`)=`t1`.`year` and MONTH(`headcount`.`date`)=`t1`.`month` and `headcount`.`reason_public`=`t2`.`public`) as `total` from 
+						(select YEAR(`t_allday`.`selected_date`) as `year` , MONTH(`t_allday`.`selected_date`) as `month` from (
+						select * from 
+						(select adddate('".$date1."',  t2.i*100 + t1.i*10 + t0.i) selected_date from
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,
+						 (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2) v
+						where selected_date between '".$date1."' and '".$date2."') as `t_allday` group by YEAR(`t_allday`.`selected_date`) , MONTH(`t_allday`.`selected_date`)) as `t1` join 
+						(SELECT `no`,`public` FROM `reason` group by `public` order by `no`) as `t2` 
+						order by `t1`.`year`,`t1`.`month`,`t2`.`no` , `t2`.`public`";
+		$query = $this->DB_clpsg->query($str);
+		foreach ($query->result() as $row)
+		{
+			$return_array['year'][]=$row->year;
+			$return_array['month'][]=$row->month;
+			$return_array['show_time'][]=$row->show_time;
+			$return_array['public'][]=$row->public;
+			$return_array['total'][]=$row->total;
+		}
+		return $return_array;
+	}
 }
 ?>

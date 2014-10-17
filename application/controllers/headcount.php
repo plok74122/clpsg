@@ -91,6 +91,73 @@ class Headcount extends CI_Controller {
 		$return_array=$this->clpsg_model->get_two_week_headcount($date);
 		echo json_encode($return_array);
 	}
+	public function headcount_statistics_by_date_choos()
+	{
+		Html_Header();
+		jquery_time_require();
+		$this->load->view("clpsg/templates/header");
+		$this->load->view('clpsg/templates/main_navigation');
+		$this->load->view('clpsg/headcount/headcount_statistics_by_date_choose');
+		$this->load->view("clpsg/templates/footer");
+	}
+	public function headcount_statistics_by_date()
+	{
+		Html_Header();
+		jquery_time_require();
+		$date1 = $this->input->post('date1');
+		$date2 = $this->input->post('date2');
+		if($date1=="" or $date2=="")
+		{
+			echo "<script>alert('參數有缺少，請選擇兩個日期!');history.go(-1);</script>";
+		}
+		else
+		{
+			//查出該段時間的所有NO值
+			$headlist_id = $this->clpsg_model->query_headcount_id_array_by_date($date1,$date2);
+			//查出那些NO值得所有詳細清單
+			$query_headlist_id_info_list =$this->clpsg_model->query_headlist_id_info_list($headlist_id);
+			//查詢所有參訪類別在這些no值的總分類總數
+			$headcount_statistics_by_headlist_id_private =$this->clpsg_model->headcount_statistics_by_headlist_id_private($headlist_id);
+			//查詢所有參訪類別在這些no值的總分類總數(外部)
+			$headcount_statistics_by_headlist_id_public =$this->clpsg_model->headcount_statistics_by_headlist_id_public($headlist_id);
+			print_r($headcount_statistics_by_headlist_id_public);
+			//查詢每周所有NO值的分類總數(內部)
+			$headcount_statistics_by_headlist_id_week_in_private =$this->clpsg_model->headcount_statistics_by_headlist_id_week_in_private($date1,$date2);
+			//查詢每月所有NO值的分類總數(內部)
+			$headcount_statistics_by_headlist_id_month_in_private =$this->clpsg_model->headcount_statistics_by_headlist_id_month_in_private($date1,$date2);
+			//查詢每周所有NO值的分類總數(外部)
+			$headcount_statistics_by_headlist_id_week_in_public =$this->clpsg_model->headcount_statistics_by_headlist_id_week_in_public($date1,$date2);
+			//查詢每月所有NO值的分類總數(外部)
+			$headcount_statistics_by_headlist_id_month_in_public =$this->clpsg_model->headcount_statistics_by_headlist_id_month_in_public($date1,$date2);
+//			print_r($headlist_id);
+//			print_r($query_headlist_id_info_list);
+//			echo "<br>";
+//			print_r($headcount_statistics_by_headlist_id);
+//			echo "<br>";
+//			print_r($headcount_statistics_by_headlist_id_week_in_private);
+//			echo "<br>";
+//			print_r($headcount_statistics_by_headlist_id_month_in_private);
+//			echo "<br>";
+//			print_r($headcount_statistics_by_headlist_id_week_in_public);
+//			echo "<br>";
+//			print_r($headcount_statistics_by_headlist_id_month_in_public);
+			$this->load->view("clpsg/templates/header");
+			$this->load->view('clpsg/templates/main_navigation');
+			$view_array['date1']=$date1;
+			$view_array['date2']=$date2;
+			$view_array['query_headlist_id_info_list']=$query_headlist_id_info_list;
+			$view_array['headcount_statistics_by_headlist_id_private']=$headcount_statistics_by_headlist_id_private;
+			$view_array['headcount_statistics_by_headlist_id_public']=$headcount_statistics_by_headlist_id_public;
+			$view_array['headcount_statistics_by_headlist_id_week_in_private']=$headcount_statistics_by_headlist_id_week_in_private;
+			$view_array['headcount_statistics_by_headlist_id_month_in_private']=$headcount_statistics_by_headlist_id_month_in_private;
+			$view_array['headcount_statistics_by_headlist_id_week_in_public']=$headcount_statistics_by_headlist_id_week_in_public;
+			$view_array['headcount_statistics_by_headlist_id_month_in_public']=$headcount_statistics_by_headlist_id_month_in_public;
+			$this->load->view('clpsg/headcount/headcount_statistics_by_date',$view_array);
+			$this->load->view("clpsg/templates/footer");
+			$this->load->view('clpsg/headcount/headcount_statistics_by_date_highcharts_pie_basic_js',$view_array);
+			
+		}
+	}
 }
 
 function Html_Header()
@@ -125,6 +192,7 @@ function jquery_time_require()
 	echo script_tag('assets/js/control/datepickerCHT.js');	
 	echo script_tag('assets/js/control/timepicker.js');	
 	echo script_tag('assets/js/control/slider.js');	
+	echo script_tag('assets/js/highcharts/highcharts.js');	
 //	echo script_tag('assets/js/control/reason.js');	
 	echo link_tag(array('href'=>'assets/js/jquery/jquery-ui.css', 'rel' => 'stylesheet','type' => 'text/css','media'=>'screen,projection,print'));
 	echo link_tag(array('href'=>'assets/js/jquery/jquery-ui-timepicker-addon.css', 'rel' => 'stylesheet','type' => 'text/css','media'=>'screen,projection,print'));
