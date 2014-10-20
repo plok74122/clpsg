@@ -1,6 +1,5 @@
 <?php
 class Clpsg extends CI_Controller {
-
 	//叫出連線的model
 	public function __construct()
 	{

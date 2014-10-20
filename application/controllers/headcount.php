@@ -1,6 +1,6 @@
 <?php
 class Headcount extends CI_Controller {
-
+	
 	//叫出連線的model
 	public function __construct()
 	{
@@ -8,6 +8,10 @@ class Headcount extends CI_Controller {
 		$this->load->model('clpsg_model');
 		$this->load->helper(array('html','url'));
 		$this->load->library(array('parser','session'));
+		if($this->session->userdata('name')=="")
+		{
+			echo "<script>alert('請先登入');window.location='".base_url('')."';</script>";
+		}
 	}
 	public function index()
 	{

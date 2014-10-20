@@ -8,6 +8,10 @@ class Question extends CI_Controller {
 		$this->load->model('clpsg_model');
 		$this->load->helper(array('html','url'));
 		$this->load->library(array('parser','session'));
+		if($this->session->userdata('name')=="")
+		{
+			echo "<script>alert('請先登入');window.location='".base_url('')."';</script>";
+		}
 	}
 	
 	public function index()
