@@ -8,6 +8,8 @@ class Question extends CI_Controller {
 		$this->load->model('clpsg_model');
 		$this->load->helper(array('html','url'));
 		$this->load->library(array('parser','session'));
+		Html_Header();
+		jquery_time_require();
 		if($this->session->userdata('name')=="")
 		{
 			echo "<script>alert('請先登入');window.location='".base_url('')."';</script>";
@@ -19,7 +21,7 @@ class Question extends CI_Controller {
 	}
 	public function list_need_question()
 	{
-		Html_Header();
+//		Html_Header();
 		$this->load->view("clpsg/templates/header");
 		$this->load->view('clpsg/templates/main_navigation');
 		$view_array['list_need_question']=$this->clpsg_model->list_need_question();
@@ -28,8 +30,8 @@ class Question extends CI_Controller {
 	}
 	public function write_answer_question()
 	{
-		Html_Header();
-		jquery_time_require();
+//		Html_Header();
+//		jquery_time_require();
 		$headlist_id = $this->uri->segment(3, 0);
 		$return_array = $this->clpsg_model->query_how_many_question($headlist_id);
 		if($return_array['total_finish']=="")
@@ -54,7 +56,7 @@ class Question extends CI_Controller {
 	}
 	public function insert_question()
 	{
-		Html_Header();
+//		Html_Header();
 		$input_array = $this->input->post();
 		$check_array = $input_array;
 		unset($check_array['headcount_id']);
@@ -73,7 +75,7 @@ class Question extends CI_Controller {
 	}
 	public function query_question_by_headcount_list()
 	{
-		Html_Header();
+//		Html_Header();
 		$this->load->view("clpsg/templates/header");
 		$this->load->view('clpsg/templates/main_navigation');
 		$view_array['list_need_question']=$this->clpsg_model->query_question_by_headcount_list();
@@ -82,8 +84,8 @@ class Question extends CI_Controller {
 	}
 	public function query_question_by_headcount()
 	{
-		Html_Header();
-		jquery_time_require();
+//		Html_Header();
+//		jquery_time_require();
 		$headlist_id = $this->input->post('headlist_id');
 		$return_array = $this->clpsg_model->query_question_by_headcount_list($headlist_id);
 		if($return_array['total_finish']=="")
@@ -106,8 +108,8 @@ class Question extends CI_Controller {
 	}
 	public function question_statistics_by_date_choose()
 	{
-		Html_Header();
-		jquery_time_require();
+//		Html_Header();
+//		jquery_time_require();
 		$this->load->view("clpsg/templates/header");
 		$this->load->view('clpsg/templates/main_navigation');
 		$this->load->view('clpsg/question/question_statistics_by_date_choose');
@@ -115,8 +117,8 @@ class Question extends CI_Controller {
 	}	
 	public function question_statistics_by_date()
 	{
-		Html_Header();
-		jquery_time_require();
+//		Html_Header();
+//		jquery_time_require();
 		$date1 = $this->input->post('date1');
 		$date2 = $this->input->post('date2');
 		if($date1=="" or $date2=="")
@@ -140,8 +142,8 @@ class Question extends CI_Controller {
 	}
 	public function printA4_question_statistics_by_headlist_id()
 	{
-		Html_Header();
-		jquery_time_require();
+//		Html_Header();
+//		jquery_time_require();
 		$headlist_id = $this->input->post('headlist_id');
 		$return_array = $this->clpsg_model->query_question_by_headcount_list($headlist_id);
 		if($return_array['total_finish']=="")

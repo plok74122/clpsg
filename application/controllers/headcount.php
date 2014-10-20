@@ -8,6 +8,8 @@ class Headcount extends CI_Controller {
 		$this->load->model('clpsg_model');
 		$this->load->helper(array('html','url'));
 		$this->load->library(array('parser','session'));
+		Html_Header();
+		jquery_time_require();
 		if($this->session->userdata('name')=="")
 		{
 			echo "<script>alert('請先登入');window.location='".base_url('')."';</script>";
@@ -18,8 +20,8 @@ class Headcount extends CI_Controller {
 	}
 	public function add_count()
 	{
-		Html_Header();
-		jquery_time_require();
+//		Html_Header();
+//		jquery_time_require();
 		//本文內容
 		$this->load->view("clpsg/templates/header");
 		$this->load->view('clpsg/templates/main_navigation');
@@ -30,7 +32,7 @@ class Headcount extends CI_Controller {
 	}
 	public function insert_headcount()
 	{
-		Html_Header();
+//		Html_Header();
 		$input_array = $this->input->post();
 		$return = $this->clpsg_model->insert_headcount($input_array);
 		if($return =="success")
@@ -48,7 +50,7 @@ class Headcount extends CI_Controller {
 	}	
 	public function list_headcount()
 	{
-		Html_Header();
+//		Html_Header();
 		$return_array = $this->clpsg_model->list_headcount();
 		$this->load->view("clpsg/templates/header");
 		$this->load->view('clpsg/templates/main_navigation');
@@ -58,8 +60,8 @@ class Headcount extends CI_Controller {
 	}
 	public function edit_headcount()
 	{
-		Html_Header();
-		jquery_time_require();
+//		Html_Header();
+//		jquery_time_require();
 		$headlist_id = $this->uri->segment(3, 0);
 		$return_array = $this->clpsg_model->query_headcount($headlist_id);
 		$view_array['edit']=$return_array;
@@ -72,8 +74,8 @@ class Headcount extends CI_Controller {
 	}
 	public function edit_db_headcount()
 	{
-		Html_Header();
-		jquery_time_require();
+//		Html_Header();
+//		jquery_time_require();
 		$input_array=$this->input->post();
 		$return = $this->clpsg_model->update_db_headcount($input_array);
 		if($return =="success")
@@ -97,8 +99,8 @@ class Headcount extends CI_Controller {
 	}
 	public function headcount_statistics_by_date_choos()
 	{
-		Html_Header();
-		jquery_time_require();
+//		Html_Header();
+//		jquery_time_require();
 		$this->load->view("clpsg/templates/header");
 		$this->load->view('clpsg/templates/main_navigation');
 		$this->load->view('clpsg/headcount/headcount_statistics_by_date_choose');
@@ -106,8 +108,8 @@ class Headcount extends CI_Controller {
 	}
 	public function headcount_statistics_by_date()
 	{
-		Html_Header();
-		jquery_time_require();
+//		Html_Header();
+//		jquery_time_require();
 		$date1 = $this->input->post('date1');
 		$date2 = $this->input->post('date2');
 		if($date1=="" or $date2=="")
