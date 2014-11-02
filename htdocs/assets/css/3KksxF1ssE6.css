@@ -1,0 +1,332 @@
+html {
+	border: 0px currentColor;
+}
+body {
+	border: 0px currentColor;
+}
+body.booklet {
+	margin: 0px; padding: 0px; overflow: visible;
+}
+#booklet {
+	margin: 0px; padding: 0px;
+}
+#booklet #content {
+	margin: 0px; padding: 0px; border: 0px solid white; width: auto; float: none;
+}
+#booklet #pageheader {
+	background: rgb(59, 89, 152); color: rgb(255, 255, 255);
+}
+#booklet #pageheader #homelink {
+	background: url("https://www.facebook.com//rsrc.php/v2/yR/r/teE39sffXW8.png") no-repeat 10px 50%; margin: 0px; padding: 8px 10px 8px 30px; color: rgb(255, 255, 255);
+}
+#booklet #fbpageheader {
+	height: 34px; border-bottom-color: rgb(26, 56, 120); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(59, 89, 152);
+}
+#booklet #fbpageheader #logo {
+	background-position: 4px -274px; width: 96px; height: 34px; float: left; background-image: url("https://www.facebook.com//rsrc.php/v2/y1/r/FbA5g7mpx8r.png"); background-repeat: no-repeat; background-size: auto;
+}
+#booklet #fbpageheader a {
+	color: rgb(255, 255, 255); font-weight: bold; margin-top: 6px; float: right; display: inline-block;
+}
+#booklet #fbpageheader a:hover {
+	text-decoration: none; background-color: rgb(75, 103, 161);
+}
+#booklet #fbpageheader a:focus {
+	text-decoration: none; background-color: rgb(75, 103, 161);
+}
+#booklet #fbpageheader a:active {
+	text-decoration: none; background-color: rgb(75, 103, 161);
+}
+#booklet #dialog_buttons {
+	padding: 8px 10px;
+}
+#booklet #dialog_buttons input {
+	margin: 2px;
+}
+#booklet #pagefooter #pagefooter_links {
+	width: auto;
+}
+#booklet #pagefooter {
+	margin: 0px auto; width: auto;
+}
+#booklet #pagefooter .copyright_and_location {
+	width: auto;
+}
+#booklet .status {
+	margin: 0px;
+}
+.help_identify .profile_card_image {
+	margin-top: 3px;
+}
+.help_identify #identify_email {
+	width: 255px; margin-bottom: 3px;
+}
+.help_identify #identify_profile_url {
+	width: 255px; margin-bottom: 3px;
+}
+.help_identify #identify_friends_name {
+	width: 255px; margin-bottom: 3px;
+}
+.help_identify #identify_your_name {
+	width: 255px; margin-bottom: 3px;
+}
+.help_identify .identify_yourself_dialog_box {
+	margin-right: auto; margin-left: auto;
+}
+.help_identify .identify_yourself_subtitle {
+	margin-bottom: 2px; display: block;
+}
+.help_identify .identify_yourself_block {
+	width: 330px; margin-right: auto; margin-left: auto;
+}
+.help_identify #identify_yourself_error {
+	margin-top: 5px;
+}
+.login_page .title_header {
+	margin: 0px 0px 10px; padding: 0px 0px 10px;
+}
+.login_page .login_page_spacer {
+	height: 35px;
+}
+.login_page .title_header h2.no_icon {
+	background: 0%; margin: 0px; padding: 0px;
+}
+.login_page #loginform {
+	margin: auto; padding: 15px 0px; width: 380px; text-align: left; clear: left;
+}
+.login_page #signup_area {
+	margin: auto; width: 380px; clear: left;
+}
+.login_page .signup_button {
+	float: left;
+}
+.login_page .fbLoginNuxTrackingPixel {
+	width: 0px; height: 0px; display: inline;
+}
+.login_page .signup_text {
+	margin: 0px 0px 20px 10px; width: 200px; float: left;
+}
+.login_page hr {
+	width: 280px; margin-left: 0px;
+}
+.login_page #loginform p {
+	margin: 10px 0px; text-align: left; line-height: 16px;
+}
+.login_page #loginform p.reset_password {
+	padding-bottom: 0px; margin-bottom: 0px;
+}
+.login_page .apinote {
+	background: rgb(255, 255, 255); margin: 10px auto; width: 450px;
+}
+.login_page .apinote h2 {
+	font-size: 12px; margin-bottom: 6px;
+}
+.login_page .login_form_container .dialog_buttons {
+	margin: 0px; padding: 8px 10px; left: 0px; text-align: right; right: 0px; bottom: 0px; border-top-color: rgb(204, 204, 204); border-top-width: 1px; border-top-style: solid; position: absolute; background-color: rgb(242, 242, 242);
+}
+.login_page .dialog_buttons .logged_in_as {
+	width: 240px; text-align: left; margin-top: 3px; float: left;
+}
+.login_page .dialog_buttons .register_link {
+	text-align: left; font-weight: bold; margin-top: 4px; float: left;
+}
+.login_page #email {
+	direction: ltr;
+}
+.login_page #error {
+	margin-top: 20px;
+}
+div.login_page_interstitial {
+	width: 640px; 
+	margin-bottom: 3%;
+	margin-top: 10%;
+}
+.login_page .localeSelectorList {
+	margin: 0px auto 40px; width: 640px;
+}
+.login_page #booklet #content {
+	padding: 15px 30px 20px; width: auto; margin-bottom: 46px; float: none;
+}
+.login_page #booklet #loginform {
+	padding-top: 0px; margin-top: 20px;
+}
+.login_page #booklet #dialog_buttons input {
+	margin: 0px;
+}
+.form_row {
+	padding: 0px 0px 8px; text-align: left;
+}
+.form_row .login_form_label {
+	padding: 3px 0px; width: 100px; float: left; display: block;
+}
+.form_row input {
+	margin: 0px;
+}
+.form_row .inputtext {
+	width: 175px;
+}
+.inputpassword {
+	width: 175px;
+}
+.form_row .checkbox {
+	margin: 5px 4px 2px 0px; width: 15px; float: left;
+}
+.persistent {
+	padding: 3px 0px 3px 100px;
+}
+#login_button_inline {
+	margin-right: 5px; margin-bottom: 5px; float: left;
+}
+#register_link {
+	margin-top: 5px; float: left;
+}
+#buttons {
+	padding: 5px 0px 0px 100px; text-align: left;
+}
+#buttons .uiButton {
+	margin-right: 2px;
+}
+#buttons label {
+	width: auto; float: none;
+}
+.reset_password {
+	padding-left: 100px;
+}
+.not_me_link {
+	padding-left: 100px;
+}
+.reset_password label {
+	width: auto; font-weight: normal; float: none;
+}
+.reset #content {
+	padding: 20px;
+}
+.login_error_box {
+	margin-top: 10px;
+}
+.login_page_private {
+	background-color: rgb(21, 21, 21);
+}
+.login_page_private a {
+	color: rgb(255, 255, 255);
+}
+.login_page_private .localeSelectorList a.showMore {
+	background-color: rgb(21, 21, 21);
+}
+.lo_user li.objectListItem {
+	padding-top: 0px; padding-bottom: 0px; list-style-type: none;
+}
+.loginhelp_search_list li.objectListItem {
+	width: 400px; list-style-type: none;
+}
+.louser_badpw li.objectListItem {
+	width: 400px; list-style-type: none;
+}
+.loginhelp_isitme li.objectListItem {
+	width: 400px;
+}
+._k0 {
+	width: 100%;
+}
+._k0 td {
+	padding: 5px 4px 7px;
+}
+._k1:hover {
+	background: rgb(237, 239, 244);
+}
+._k2 {
+	padding-left: 25px;
+}
+._k3 {
+	width: 75%; border-right-color: rgb(232, 235, 243); border-right-width: 1px; border-right-style: solid;
+}
+table._k4 tr td {
+	padding-right: 20px;
+}
+table._k4 tr td input {
+	font-size: 40px;
+}
+._ye {
+	width: 50%; padding-top: 25px; padding-left: 25px;
+}
+.fbLoggedOutAccountBlock td {
+	vertical-align: middle;
+}
+.fbLoggedOutAccountInfo {
+	width: 10000px;
+}
+.fbLoggedOutAccountAuxContent {
+	width: 50%;
+}
+.weak_pass {
+	color: grey; font-weight: bold;
+}
+.medium_pass {
+	color: rgb(0, 0, 255); font-weight: bold;
+}
+.strong_pass {
+	color: green; font-weight: bold;
+}
+.short_pass {
+	color: orange; font-weight: bold;
+}
+div.photosClusters {
+	width: 602px;
+}
+.photosClusters .photoAndTypeahead {
+	width: 174px; float: left;
+}
+.photosClusters .faceCrop {
+	background: rgb(255, 255, 255); padding: 4px; border: 1px solid rgb(204, 204, 204); position: relative;
+}
+.photosClusters a.untag {
+	top: 9px; right: 10px; position: absolute; z-index: 1;
+}
+.photosClusters .clusterTypeahead {
+	width: 220px; clear: both;
+}
+.photosClusters .photoSingles .photoAndTypeahead {
+	padding-bottom: 20px;
+}
+.megaphone_location_FaceRecMegaphone {
+	width: 604px; margin-right: auto; margin-left: auto;
+}
+#conf_code_input input {
+	width: 70px;
+}
+.securityq_prompt {
+	padding-bottom: 12px;
+}
+.uiInterstitial {
+	border-radius: 4px; margin-right: auto; margin-left: auto;
+}
+.uiInterstitialSmall {
+	width: 445px;
+}
+.uiInterstitialLarge {
+	width: 555px;
+}
+.uiInterstitial .interstitialHeader {
+	border-color: rgb(204, 204, 204); padding-bottom: 0.5em;
+}
+.fullBleed .interstitialHeader {
+	margin: 0px; padding: 4px 12px 10px;
+}
+.uiInterstitialContent {
+	margin-bottom: 15px;
+}
+.fullBleed .uiInterstitialContent {
+	margin: 0px; padding: 0px;
+}
+.uiInterstitialBar {
+	padding: 8px 10px; line-height: 16px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;
+}
+div.uiInterstitialWithStripes {
+	background: url("https://www.facebook.com//rsrc.php/v2/y9/r/y7MG8IZpiC8.gif") repeat-x; padding-top: 15px;
+}
+#bootloader_bKKW_ {
+	height: 42px;
+}
+.bootloader_bKKW_ {
+	display: block !important;
+}
