@@ -272,7 +272,7 @@ class Clpsg_model extends CI_Model {
 	}
 	public function question_statistics_by_headlist_id($headlist_id)
 	{
-		$str = "SELECT `question_answer_type`.`question_list_id`, `question_answer_type`.`answer_type` , (SELECT count(*) from `question_answer` where `question_answer_type`.`question_list_id` = `question_answer`.`question_list_id` and `question_answer_type`.`answer_type` =`question_answer`.`answer` and `question_answer`.`headcount_id` in ('".implode("','",$headlist_id)."')) as `total` FROM `question_answer_type`";
+		$str = "SELECT `question_answer_type`.`question_list_id`, `question_answer_type`.`answer_type` , (SELECT count(*) from `question_answer` where `question_answer_type`.`question_list_id` = `question_answer`.`question_list_id` and `question_answer_type`.`answer_type` =`question_answer`.`answer` and `question_answer`.`headcount_id` in ('".implode("','",$headlist_id)."')) as `total` FROM `question_answer_type` order by `question_answer_type`.`question_list_id`";
 		$query = $this->DB_clpsg->query($str);
 		foreach ($query->result() as $row)
 		{
