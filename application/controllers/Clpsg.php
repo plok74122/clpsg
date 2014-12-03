@@ -4,6 +4,7 @@ class Clpsg extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		ob_start();
 		$this->load->model('clpsg_model');
 		$this->load->helper(array('html','url'));
 		$this->load->library(array('parser','session'));
